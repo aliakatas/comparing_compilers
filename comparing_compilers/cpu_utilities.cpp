@@ -95,6 +95,18 @@ void calculateOnCPU(real* xpy, const real* x, const real* y, const size_t rows, 
     }
     // This is not doing anything fancy. Just keeps the CPU busy for some time.
 
+    std::string fname = "outcome";
+#ifdef _ICC
+    fname += "_ICC";
+#else
+    fname += "_MSVC";
+#endif
+#ifdef DP
+    fname += "_DP";
+#endif // DP
+    fname += ".csv";
+
+    dump_to_csv(fname, xpy, rows, cols);
     printf(" \n");
 }
 
