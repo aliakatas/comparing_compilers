@@ -59,7 +59,7 @@ int main(int argc, char** argv)
 #else
     printf("  Single precision \n");
 #endif
-    printf("  After %u iterations, the average run time is %f (ms) \n", N, final_timing / (double)N);
+    printf("  After %u iterations, the average run time is %f (s) \n", N, final_timing / (double)N);
     
 	return 0;
 }
