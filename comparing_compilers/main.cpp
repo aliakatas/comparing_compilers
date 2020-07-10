@@ -4,8 +4,7 @@
 
 int main(int argc, char** argv)
 {
-	// Create a timer...
-	Timer timer;
+	
 	// Create the configuration
 	RunConfiguration myRC;
 	// Modify configuration as per user input
@@ -28,35 +27,39 @@ int main(int argc, char** argv)
     printf("               Repetitions :: %u \n", myRC.reps);
     printf("                 Tolerance :: %f \n", myRC.tolerance);
 
+    float temp_timing = 0.0f;
+#ifdef _DEBUG
+    const int N = 3;
+#else
+    const int N = 10;
+#endif // _DEBUG
 
-    // Declare the arrays
-    real* a_h = nullptr;
-    real* b_h = nullptr;
-    real* c_h = nullptr;
+    double final_timing = 0.0;
+    int ij = 0;
+    while (ij < N)
+    {
+        printf("*****************************************\n");
+        printf("Performing calculations on CPU  %u/%u... \n", ij + 1, N);
+        run_cpu_workload_iteration(bytesPerMatrix, myRC, temp_timing);
+        printf("\n");
+        final_timing += temp_timing;
+        ++ij;
+    }
 
-    timer.start("CPU workload ");
-    a_h = (real*)malloc(bytesPerMatrix);
-    b_h = (real*)malloc(bytesPerMatrix);
-    c_h = (real*)malloc(bytesPerMatrix);
-
-    // Initialise the input matrices
-    initialise(a_h, myRC.nrows, myRC.ncols);
-    initialise(b_h, myRC.nrows, myRC.ncols);
-
-    // Run work on CPU
-    timer.start("CPU execution ");
-    printf("Performing calculations on CPU... \n");
-    calculateOnCPU(c_h, a_h, b_h, myRC.nrows, myRC.ncols, myRC.dt, myRC.reps, myRC.idxRow, myRC.idxCol, myRC.npoints);
-
-    if (a_h)
-        free(a_h);
-    if (b_h)
-        free(b_h);
-    if (c_h)
-        free(c_h);
-    float total_time = timer.stop();
-
-
-
+#ifdef _DEBUG
+    printf("** Debug ** \n");
+#endif
+#ifdef _ICC
+    printf("  ICC compiler \n");
+#else
+    printf("  MSVC compiler \n");
+#endif
+#ifdef DP
+    printf("  Double precision \n");
+#else
+    printf("  Single precision \n");
+#endif
+    printf("  After %u iterations, the average run time is %f (ms) \n", N, final_timing / (double)N);
+    
 	return 0;
 }

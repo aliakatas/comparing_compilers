@@ -2,6 +2,9 @@
 #include "definitions.h"
 #include <string>
 
+// Repeat to get reasonable results
+void run_cpu_workload_iteration(const size_t bytes, const RunConfiguration myRC, float& timing);
+
 // Initialise an array with random numbers.
 void initialise(real* x, const size_t nrows, const size_t ncols);
 

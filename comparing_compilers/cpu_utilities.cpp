@@ -1,10 +1,45 @@
+#include "CmdParser.h"
 #include "cpu_utilities.h"
 #include "definitions.h"
+#include "Timer.h"
 
 #include <math.h>
 #include <stdlib.h>
 #include <string>
 #include <fstream>
+
+// Repeat to get reasonable results
+void run_cpu_workload_iteration(const size_t bytes, const RunConfiguration myRC, float& timing)
+{
+    // Create a timer...
+    Timer timer;
+
+    // Declare the arrays
+    real* a_h = nullptr;
+    real* b_h = nullptr;
+    real* c_h = nullptr;
+
+    timer.start("CPU workload ");
+    a_h = (real*)malloc(bytes);
+    b_h = (real*)malloc(bytes);
+    c_h = (real*)malloc(bytes);
+
+    // Initialise the input matrices
+    initialise(a_h, myRC.nrows, myRC.ncols);
+    initialise(b_h, myRC.nrows, myRC.ncols);
+
+    // Run work on CPU
+    calculateOnCPU(c_h, a_h, b_h, myRC.nrows, myRC.ncols, myRC.dt, myRC.reps, myRC.idxRow, myRC.idxCol, myRC.npoints);
+
+    if (a_h)
+        free(a_h);
+    if (b_h)
+        free(b_h);
+    if (c_h)
+        free(c_h);
+    timing = timer.stop();
+    timer.print();
+}
 
 // Initialise an array with random numbers.
 void initialise(real* x, const size_t nrows, const size_t ncols)

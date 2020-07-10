@@ -15,7 +15,6 @@ Timer::~Timer()
 
 void Timer::print()
 {
-	std::cout << "\n";
 	std::cout << "Action :: time/s Time resolution = " << 1.f / (float)CLOCKS_PER_SEC << "\n";
 	std::cout << "------" << "\n";
 
@@ -41,7 +40,7 @@ float Timer::stop()
 	int tmp = n;
 	times[2 * n + 1] = clock();
 	n++;
-	return times[2 * tmp + 1];
+	return (times[2 * tmp + 1] - times[2 * tmp + 0]) / (float)CLOCKS_PER_SEC;
 }
 
 void Timer::reset()
