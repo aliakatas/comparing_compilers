@@ -6,7 +6,7 @@
 void run_cpu_workload_iteration(const size_t bytes, const RunConfiguration myRC, float& timing);
 
 // Initialise an array with random numbers.
-void initialise(real* x, const size_t nrows, const size_t ncols);
+void initialise(real* x, const size_t nrows, const size_t ncols, const int seed = 1);
 
 // Perform the addition on the CPU to get baseline performance.
 void addWithCPU(real* xpy, const real* x, const real* y, const size_t rows, const size_t cols, const real dt);

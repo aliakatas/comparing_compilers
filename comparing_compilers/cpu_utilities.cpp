@@ -26,7 +26,7 @@ void run_cpu_workload_iteration(const size_t bytes, const RunConfiguration myRC,
 
     // Initialise the input matrices
     initialise(a_h, myRC.nrows, myRC.ncols);
-    initialise(b_h, myRC.nrows, myRC.ncols);
+    initialise(b_h, myRC.nrows, myRC.ncols, 2);
 
     // Run work on CPU
     calculateOnCPU(c_h, a_h, b_h, myRC.nrows, myRC.ncols, myRC.dt, myRC.reps, myRC.idxRow, myRC.idxCol, myRC.npoints);
@@ -42,8 +42,9 @@ void run_cpu_workload_iteration(const size_t bytes, const RunConfiguration myRC,
 }
 
 // Initialise an array with random numbers.
-void initialise(real* x, const size_t nrows, const size_t ncols)
+void initialise(real* x, const size_t nrows, const size_t ncols, const int seed = 1)
 {
+    srand(seed);
     for (auto i = 0; i < nrows; ++i)
         for (auto j = 0; j < ncols; ++j)
             x[i * ncols + j] = static_cast <real>(static_cast <real> (rand()) / static_cast <real> (RAND_MAX));
