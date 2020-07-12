@@ -42,7 +42,7 @@ void run_cpu_workload_iteration(const size_t bytes, const RunConfiguration myRC,
 }
 
 // Initialise an array with random numbers.
-void initialise(real* x, const size_t nrows, const size_t ncols, const int seed = 1)
+void initialise(real* x, const size_t nrows, const size_t ncols, const int seed)
 {
     srand(seed);
     for (auto i = 0; i < nrows; ++i)
