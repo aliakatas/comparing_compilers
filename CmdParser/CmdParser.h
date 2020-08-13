@@ -8,8 +8,10 @@
 enum class TestType
 {
 	FULL,
-	SPECIAL,
-	SIMPLE
+	MULT,
+	TRIGON,
+	TANH, 
+	SPECIAL
 };
 
 // Keeping the configuration tidy - default values
@@ -32,7 +34,7 @@ struct RunConfiguration
 	size_t* idxRow = nullptr;
 	size_t* idxCol = nullptr;
 
-	TestType testType = TestType::SIMPLE;
+	TestType testType = TestType::MULT;
 };
 
 // Parse user inputs from the command-line and modify the configuration of the program.
@@ -41,5 +43,6 @@ void parseArguments(int argc, char** argv, RunConfiguration& rc);
 // Modify a specific configuration parameter according to user input.
 void setRunConfigurationParameter(const std::string istr_, const std::string val, RunConfiguration& rc);
 
-//// Create virtual BCs
-//void setBClocations(RunConfiguration& rc);
+// Confirm (or maybe just inform) with the user the test configuration
+void confirmRunConfiguration(RunConfiguration& rc);
+

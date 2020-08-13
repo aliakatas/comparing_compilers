@@ -11,6 +11,7 @@ enum class MathUsed
 {
     USE_TANH,
     USE_POW,
+    USE_TRIG,
     USE_MULT
 };
 
@@ -18,6 +19,8 @@ void cpu_benchmark(const size_t nrows, const size_t ncols,
     const double dt, const size_t reps, const size_t* idxRow, const size_t* idxCol, const size_t npoints, const bool logfile = false, const MathUsed mathused = MathUsed::USE_MULT);
 
 void get_random_ints(const size_t N, size_t* idx, const size_t minVal, const size_t maxVal);
+
+void prepareBCpoints(const size_t N, size_t*& idxRows, size_t*& idxCols, const size_t nrows, const size_t ncols);
 
 template <typename T>
 std::string to_string_with_precision(const T a_value, const int n = 6)
@@ -65,12 +68,20 @@ void modifyWithCPU(real* xpy, const real* x, const real* y, const real* w, const
             idx = i * cols + j;
             switch (mathused)
             {
+            case (MathUsed::USE_MULT): {
+                xpy[idx] = w[idx] * w[idx] + dt * (x[idx] * y[idx]) / real(2.0);
+                break;
+            }
             case (MathUsed::USE_POW): {
                 xpy[idx] = w[idx] * w[idx] + dt * (pow(x[idx], 2) + pow(y[idx], 2)) / real(2.0);
                 break;
             }
             case (MathUsed::USE_TANH): {
                 xpy[idx] = w[idx] * w[idx] + dt * (tanh(x[idx]) + tanh(y[idx])) / real(2.0);
+                break;
+            }
+            case (MathUsed::USE_TRIG): {
+                xpy[idx] = w[idx] * w[idx] + dt * (sin(x[idx]) * cos(y[idx])) / real(2.0);
                 break;
             }
             default:
@@ -197,6 +208,10 @@ void run_cpu_workload_iteration (float& timing, const int iter, const int maxIte
     csvName += "_prec_results_";
     switch (mathused)
     {
+    case (MathUsed::USE_MULT): {
+        csvName += "mult_";
+        break;
+    }
     case (MathUsed::USE_POW): {
         csvName += "pow_";
         break;

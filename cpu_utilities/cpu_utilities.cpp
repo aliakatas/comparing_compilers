@@ -22,6 +22,10 @@ void cpu_benchmark(const size_t nrows, const size_t ncols,
             logName += "tanh_";
             break;
         }
+        case (MathUsed::USE_TRIG): {
+            logName += "trig_";
+            break;
+        }
         default: {
             logName += "mult_";
             break;
@@ -80,6 +84,10 @@ void cpu_benchmark(const size_t nrows, const size_t ncols,
         messenger.writeOutput("                 Math Used :: Tanh ");
         break;
     }
+    case (MathUsed::USE_TRIG): {
+        messenger.writeOutput("                 Math Used :: Trigonometric ");
+        break;
+    }
     default: {
         messenger.writeOutput("                 Math Used :: Multiplication ");
         break;
@@ -101,12 +109,11 @@ void cpu_benchmark(const size_t nrows, const size_t ncols,
 #else
     messenger.writeOutput("  MSVC compiler results");
 #endif
-    
-    const double dtime = run_all_iterations <double>(N, nrows, ncols, dt, reps, idxRow, idxCol, npoints, mathused);
-    const double stime = run_all_iterations <float>(N, nrows, ncols, dt, reps, idxRow, idxCol, npoints, mathused);
-    
     messenger.writeOutput();
+    const double stime = run_all_iterations <float>(N, nrows, ncols, dt, reps, idxRow, idxCol, npoints, mathused);
     messenger.writeOutput("  After " + std::to_string(N) + " iterations, the average run time for SINGLE precision is " + to_string_with_precision(stime, 3) + " (s) ");
+
+    const double dtime = run_all_iterations <double>(N, nrows, ncols, dt, reps, idxRow, idxCol, npoints, mathused);
     messenger.writeOutput("  After " + std::to_string(N) + " iterations, the average run time for DOUBLE precision is " + to_string_with_precision(dtime, 3) + " (s) ");
     messenger.writeOutput();
 }
@@ -115,4 +122,16 @@ void get_random_ints(const size_t N, size_t* idx, const size_t minVal, const siz
 {
     for (auto i = 0; i < N; ++i)
         idx[i] = minVal + (rand() % static_cast<size_t>(maxVal - minVal + 1));
+}
+
+void prepareBCpoints(const size_t N, size_t*& idxRows, size_t*& idxCols, const size_t nrows, const size_t ncols)
+{
+    if (N <= 0)
+        return;
+
+    idxRows = (size_t*)malloc(N * sizeof(size_t));
+    idxCols = (size_t*)malloc(N * sizeof(size_t));
+
+    get_random_ints(N, idxRows, 0, nrows - 1);
+    get_random_ints(N, idxCols, 0, ncols - 1);
 }

@@ -1,5 +1,6 @@
 #include "CmdParser.h"
 
+#include <iostream>
 #include <string>
 
 // Define the command line options here: { "number of row and columns", "number of rows", "number of columns", "number of repetitions",
@@ -52,11 +53,19 @@ void setRunConfigurationParameter(const std::string istr_, const std::string val
 		switch (tempType)
 		{
 		case (0): {
-			rc.testType = TestType::SIMPLE;
+			rc.testType = TestType::MULT;
 			break;
 		}
 		case (1): {
 			rc.testType = TestType::SPECIAL;
+			break;
+		}
+		case (2): {
+			rc.testType = TestType::TRIGON;
+			break;
+		}
+		case (3): {
+			rc.testType = TestType::TANH;
 			break;
 		}
 		default: {
@@ -67,45 +76,45 @@ void setRunConfigurationParameter(const std::string istr_, const std::string val
 	}
 }
 
+/**/
+void confirmRunConfiguration(RunConfiguration& rc)
+{
+	std::cout << "  Running Test with --> \n";
+	std::cout << "            # Rows :: " << rc.nrows << "\n";
+	std::cout << "         # Columns :: " << rc.ncols << "\n";
+	std::cout << "          # Tsteps :: " << rc.reps << "\n";
+	std::cout << "     Time step val :: " << rc.dt << "\n";
+	std::cout << "         Tolerance :: " << rc.tolerance << "\n";
+	rc.npoints = rc.pctBC * rc.nrows * rc.ncols; 
+	std::cout << "  # Points with BC :: " << rc.npoints << "\n";
+	std::cout << "         Test type :: ";
+	switch (rc.testType)
+	{
+	case (TestType::MULT): {
+		std::cout << "Multiplication \n";
+		break;
+	}
+	case (TestType::SPECIAL): {
+		std::cout << "Special \n";
+		break;
+	}
+	case (TestType::FULL): {
+		std::cout << "Full \n";
+		break;
+	}
+	case (TestType::TRIGON): {
+		std::cout << "Trigonometric \n";
+		break;
+	}
+	case (TestType::TANH): {
+		std::cout << "Hyp Tangent \n";
+		break;
+	}
+	default:
+	{
+		std::cout << "** not recognised ** \n";
+		break;
+	}
+	}
+}
 
-
-
-
-
-
-
-
-
-
-
-//
-///**/
-//void setBClocations(RunConfiguration& rc)
-//{
-//	size_t npointsX = 3;
-//	if (rc.ncols > 1000)
-//		npointsX = 90;
-//	else if (rc.ncols > 100)
-//		npointsX = 9;
-//
-//	size_t npointsY = 2;
-//	if (rc.nrows > 1000)
-//		npointsY = 30;
-//	else if (rc.nrows > 100)
-//		npointsY = 6;
-//
-//	rc.npoints = npointsX * npointsY;
-//
-//	rc.idxCol = new size_t[rc.npoints];
-//	rc.idxRow = new size_t[rc.npoints];
-//	size_t idx = 0;
-//	for (auto i = 0; i < npointsY; ++i)
-//	{
-//		for (auto j = 0; j < npointsX; ++j)
-//		{
-//			rc.idxCol[idx] = rc.ncols * (float)j / (float)npointsX;
-//			rc.idxRow[idx] = rc.nrows * (float)i / (float)npointsY;
-//			++idx;
-//		}
-//	}
-//}
