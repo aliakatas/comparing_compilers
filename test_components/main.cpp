@@ -8,10 +8,13 @@ int main(int argc, char** argv)
 {
 	std::string thisExeName = argv[0];
 	std::cout << " Hello from  -- " << get_filename(thisExeName) << " -- \n";
+	std::cout << " Run " << get_filename(thisExeName) << " -h for various options and change test configuration... \n";
 
 	RunConfiguration myRC;
 
-	parseArguments(argc, argv, myRC);
+	if (!parseArguments(argc, argv, myRC))
+		return 0;
+
 	confirmRunConfiguration(myRC);
 	prepareBCpoints(myRC.npoints, myRC.idxRow, myRC.idxCol, myRC.nrows, myRC.ncols);
 

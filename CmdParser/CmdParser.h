@@ -38,7 +38,7 @@ struct RunConfiguration
 };
 
 // Parse user inputs from the command-line and modify the configuration of the program.
-void parseArguments(int argc, char** argv, RunConfiguration& rc);
+bool parseArguments(int argc, char** argv, RunConfiguration& rc);
 
 // Modify a specific configuration parameter according to user input.
 void setRunConfigurationParameter(const std::string istr_, const std::string val, RunConfiguration& rc);

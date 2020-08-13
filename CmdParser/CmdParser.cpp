@@ -3,23 +3,37 @@
 #include <iostream>
 #include <string>
 
-// Define the command line options here: { "number of row and columns", "number of rows", "number of columns", "number of repetitions",
-//                                         "timestep", "tolerance", "pct of points with BC", "test type" }
+// Define the command line options here: 
+std::string optionsExplained[] = { "number of row and columns (square domain)", "number of rows", "number of columns", "number of repetitions",
+										 "timestep", "tolerance", "pct of points with BC", "test type" };
 std::string options[] = { "-n", "-r", "-c", "-rep", "-dt", "-tol", "-bc", "-type" };
 
 /**/
-void parseArguments(int argc, char** argv, RunConfiguration& rc)
+bool parseArguments(int argc, char** argv, RunConfiguration& rc)
 {
+	const std::string helpOpt = "-h";
 	int iarg = 0;
 	while (iarg < argc)
 	{
 		for (auto i = 0; i < size(options); ++i)
 		{
+			if (helpOpt.compare(argv[iarg]) == 0)
+			{
+				std::cout << " Help on the available options: \n";
+				for (auto jj = 0; jj < size(options); ++jj)
+				{
+					std::cout << "        " << options[jj] << " :: " << optionsExplained[jj] << "\n";
+				}
+				std::cout << " Terminating now... \n";
+				return false;
+			}
+
 			if (options[i].compare(argv[iarg]) == 0)
 				setRunConfigurationParameter(options[i], argv[++iarg], rc);
 		}
 		++iarg;
 	}
+	return true;
 }
 
 /**/
