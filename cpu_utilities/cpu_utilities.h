@@ -14,6 +14,11 @@ enum class MathUsed
     USE_MULT
 };
 
+void cpu_benchmark(const size_t nrows, const size_t ncols,
+    const double dt, const size_t reps, const size_t* idxRow, const size_t* idxCol, const size_t npoints, const bool logfile = false, const MathUsed mathused = MathUsed::USE_MULT);
+
+void get_random_ints(const size_t N, size_t* idx, const size_t minVal, const size_t maxVal);
+
 template <typename T>
 std::string to_string_with_precision(const T a_value, const int n = 6)
 {
@@ -22,9 +27,6 @@ std::string to_string_with_precision(const T a_value, const int n = 6)
     out << std::fixed << a_value;
     return out.str();
 }
-
-void cpu_benchmark(const size_t nrows, const size_t ncols,
-    const double dt, const size_t reps, const size_t* idxRow, const size_t* idxCol, const size_t npoints, const bool logfile = false, const MathUsed mathused = MathUsed::USE_MULT);
 
 // Initialise an array with random numbers.
 template <class real>

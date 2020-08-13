@@ -110,3 +110,9 @@ void cpu_benchmark(const size_t nrows, const size_t ncols,
     messenger.writeOutput("  After " + std::to_string(N) + " iterations, the average run time for DOUBLE precision is " + to_string_with_precision(dtime, 3) + " (s) ");
     messenger.writeOutput();
 }
+
+void get_random_ints(const size_t N, size_t* idx, const size_t minVal, const size_t maxVal)
+{
+    for (auto i = 0; i < N; ++i)
+        idx[i] = minVal + (rand() % static_cast<size_t>(maxVal - minVal + 1));
+}
