@@ -144,6 +144,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="helper_funcs.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CmdParser\CmdParser.vcxproj">
@@ -152,6 +153,9 @@
     <ProjectReference Include="..\cpu_utilities\cpu_utilities.vcxproj">
       <Project>{dc407c3b-0929-4fe6-b10a-25d8cd62da2e}</Project>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="helper_funcs.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
