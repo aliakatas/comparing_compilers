@@ -29,12 +29,13 @@ struct RunConfiguration
 	double dt = 0.01; 
 	double tolerance = 0.0001;
 
-	double pctBC = 0.0;
+	double pctBC = 0.1;
 	size_t npoints = 0;
 	size_t* idxRow = nullptr;
 	size_t* idxCol = nullptr;
 
 	TestType testType = TestType::MULT;
+	bool gpuOn = false;
 };
 
 // Parse user inputs from the command-line and modify the configuration of the program.

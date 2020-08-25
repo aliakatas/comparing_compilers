@@ -128,11 +128,7 @@ void benchmark(const size_t nrows, const size_t ncols,
     }
     }
 
-#ifdef _DEBUG
-    const int N = 3;
-#else
-    const int N = 10;
-#endif // _DEBUG
+    const int N = NITER;
 
     messenger.writeOutput("\n");
 #ifdef _DEBUG

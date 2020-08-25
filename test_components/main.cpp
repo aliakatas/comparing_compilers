@@ -19,17 +19,33 @@ int main(int argc, char** argv)
 	prepareBCpoints(myRC.npoints, myRC.idxRow, myRC.idxCol, myRC.nrows, myRC.ncols);
 
 	if (myRC.testType == TestType::FULL || myRC.testType == TestType::MULT)
+	{
 		benchmark(myRC.nrows, myRC.ncols, myRC.dt, myRC.reps, myRC.idxRow, myRC.idxCol, myRC.npoints, true, MathUsed::USE_MULT, ProcType::CPU);
-	
+		if (myRC.gpuOn)
+			benchmark(myRC.nrows, myRC.ncols, myRC.dt, myRC.reps, myRC.idxRow, myRC.idxCol, myRC.npoints, true, MathUsed::USE_MULT, ProcType::GPU);
+	}
+		
 	if (myRC.testType == TestType::FULL || myRC.testType == TestType::SPECIAL)
+	{
 		benchmark(myRC.nrows, myRC.ncols, myRC.dt, myRC.reps, myRC.idxRow, myRC.idxCol, myRC.npoints, true, MathUsed::USE_POW, ProcType::CPU);
+		if (myRC.gpuOn)
+			benchmark(myRC.nrows, myRC.ncols, myRC.dt, myRC.reps, myRC.idxRow, myRC.idxCol, myRC.npoints, true, MathUsed::USE_POW, ProcType::GPU);
+	}
 
 	if (myRC.testType == TestType::FULL || myRC.testType == TestType::SPECIAL || myRC.testType == TestType::TRIGON)
+	{
 		benchmark(myRC.nrows, myRC.ncols, myRC.dt, myRC.reps, myRC.idxRow, myRC.idxCol, myRC.npoints, true, MathUsed::USE_TRIG, ProcType::CPU);
+		if (myRC.gpuOn)
+			benchmark(myRC.nrows, myRC.ncols, myRC.dt, myRC.reps, myRC.idxRow, myRC.idxCol, myRC.npoints, true, MathUsed::USE_TRIG, ProcType::GPU);
+	}
 
 	if (myRC.testType == TestType::FULL || myRC.testType == TestType::TANH)
+	{
 		benchmark(myRC.nrows, myRC.ncols, myRC.dt, myRC.reps, myRC.idxRow, myRC.idxCol, myRC.npoints, true, MathUsed::USE_TANH, ProcType::CPU);
-
+		if (myRC.gpuOn)
+			benchmark(myRC.nrows, myRC.ncols, myRC.dt, myRC.reps, myRC.idxRow, myRC.idxCol, myRC.npoints, true, MathUsed::USE_TANH, ProcType::GPU);
+	}
+		
 	std::cout << " Goodbye!\n\n";
 	return 0;
 }

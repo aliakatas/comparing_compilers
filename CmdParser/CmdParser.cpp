@@ -6,8 +6,9 @@
 // Define the command line options here: 
 std::string optionsExplained[] = { "number of row and columns (square domain)", "number of rows", "number of columns", "number of repetitions", 
 	"timestep", "tolerance", "pct of points with BC", 
-	"test type (0: Multiplication only, 1: Power and Trigonometric, 2: Trigonometric only, 3: Hyperbolic Tangent, Any other value: Full test" };
-std::string options[] = { "-n", "-r", "-c", "-rep", "-dt", "-tol", "-bc", "-type" };
+	"test type (0: Multiplication only, 1: Power and Trigonometric, 2: Trigonometric only, 3: Hyperbolic Tangent, Any other value: Full test",
+	"run benchmark on GPU as well" };
+std::string options[] = { "-n", "-r", "-c", "-rep", "-dt", "-tol", "-bc", "-type", "-gpu" };
 
 /**/
 bool parseArguments(int argc, char** argv, RunConfiguration& rc)
@@ -89,6 +90,8 @@ void setRunConfigurationParameter(const std::string istr_, const std::string val
 		}
 		}
 	}
+	else if (istr.compare("-gpu") == 0)
+		rc.gpuOn = true;
 }
 
 /**/
@@ -131,5 +134,6 @@ void confirmRunConfiguration(RunConfiguration& rc)
 		break;
 	}
 	}
+	std::cout << "              GPU? :: " << rc.gpuOn << "\n";
 }
 

@@ -7,6 +7,13 @@
 #include <fstream>
 #include <sstream>
 
+// Define how many iterations are completed before averaging the run time 
+#ifdef _DEBUG
+#define NITER 3;
+#else
+#define NITER 10
+#endif // _DEBUG
+
 // Options where to run the benchmark
 enum class ProcType {
     CPU,
@@ -30,7 +37,7 @@ void benchmark(const size_t nrows, const size_t ncols,
 // Get random integers (size_t) in an array, within a range of values
 void get_random_ints(const size_t N, size_t* idx, const size_t minVal, const size_t maxVal);
 
-
+// Decide which points are acting as BC
 void prepareBCpoints(const size_t N, size_t*& idxRows, size_t*& idxCols, const size_t nrows, const size_t ncols);
 
 // Control the precision with which real numbers are written
