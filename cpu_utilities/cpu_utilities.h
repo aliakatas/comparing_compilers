@@ -7,11 +7,13 @@
 #include <fstream>
 #include <sstream>
 
+// Options where to run the benchmark
 enum class ProcType {
     CPU,
     GPU
 };
 
+// Options of the type of mathematical functions to be used
 enum class MathUsed
 {
     USE_TANH,
@@ -20,14 +22,18 @@ enum class MathUsed
     USE_MULT
 };
 
+// Controller of the benchmark processes
 void benchmark(const size_t nrows, const size_t ncols,
     const double dt, const size_t reps, const size_t* idxRow, const size_t* idxCol, const size_t npoints, const bool logfile = false, 
     const MathUsed mathused = MathUsed::USE_MULT, const ProcType procType = ProcType::CPU);
 
+// Get random integers (size_t) in an array, within a range of values
 void get_random_ints(const size_t N, size_t* idx, const size_t minVal, const size_t maxVal);
+
 
 void prepareBCpoints(const size_t N, size_t*& idxRows, size_t*& idxCols, const size_t nrows, const size_t ncols);
 
+// Control the precision with which real numbers are written
 template <typename T>
 std::string to_string_with_precision(const T a_value, const int n = 6)
 {
@@ -38,7 +44,7 @@ std::string to_string_with_precision(const T a_value, const int n = 6)
 }
 
 // Initialise an array with random numbers.
-template <class real>
+template <typename real>
 void initialise(real* x, const size_t nrows, const size_t ncols, const int seed = 1)
 {
     srand(seed);
@@ -48,7 +54,7 @@ void initialise(real* x, const size_t nrows, const size_t ncols, const int seed 
 }
 
 // Perform the addition on the CPU to get baseline performance.
-template <class real>
+template <typename real>
 void addWithCPU(real* xpy, const real* x, const real* y, const size_t rows, const size_t cols, const real dt)
 {
     size_t idx = 0;
@@ -63,7 +69,7 @@ void addWithCPU(real* xpy, const real* x, const real* y, const size_t rows, cons
 }
 
 // Perform a modification on the CPU to get baseline performance.
-template <class real>
+template <typename real>
 void modifyWithCPU(real* xpy, const real* x, const real* y, const real* w, const size_t rows, const size_t cols, const real dt, const MathUsed mathused = MathUsed::USE_MULT)
 {
     size_t idx = 0;
@@ -101,7 +107,7 @@ void modifyWithCPU(real* xpy, const real* x, const real* y, const real* w, const
 }
 
 // Simulate the application of boundary conditions
-template <class real>
+template <typename real>
 void applyBC(real* xpy, const size_t rows, const size_t cols, const real val, const size_t* idxRow, const size_t* idxCol, const size_t num)
 {
     size_t idx = 0;
@@ -113,11 +119,14 @@ void applyBC(real* xpy, const size_t rows, const size_t cols, const real val, co
 }
 
 // Perform a full cycle of computations
-template <class real>
+template <typename real>
 void calculateOnCPU(real* xpy, const real* x, const real* y, const size_t rows, const size_t cols, const real dt, const size_t rep,
 	const size_t* idxRow, const size_t* idxCol, const size_t nBC, const MathUsed mathused = MathUsed::USE_MULT)
 {
     real* temp = (real*)malloc(rows * cols * sizeof(real));
+    if (!temp)
+        return;
+        
     memset(temp, 0, rows * cols * sizeof(real));
     real time = real(0.0);
     for (auto i = 0; i < rep; ++i)
@@ -136,7 +145,7 @@ void calculateOnCPU(real* xpy, const real* x, const real* y, const size_t rows, 
 }
 
 // Compare results.
-template <class real>
+template <typename real>
 size_t check_answer(const real* ref, const real* test, const size_t nrows, const size_t ncols, const real tol)
 {
     size_t idx = 0;
@@ -153,7 +162,7 @@ size_t check_answer(const real* ref, const real* test, const size_t nrows, const
 }
 
 // Save an array in csv format
-template <class real>
+template <typename real>
 void dump_to_csv(const std::string fname, const real* myArray, const size_t nrows, const size_t ncols)
 {
     std::ofstream csvstream;
@@ -172,7 +181,7 @@ void dump_to_csv(const std::string fname, const real* myArray, const size_t nrow
 }
 
 // Get one iteration of the workload
-template <class real>
+template <typename real>
 void run_cpu_workload_iteration (float& timing, const int iter, const int maxIter, const size_t nrows, const size_t ncols,
     const real dt, const size_t reps, const size_t* idxRow, const size_t* idxCol, const size_t npoints, const MathUsed mathused = MathUsed::USE_MULT)
 {
@@ -259,7 +268,7 @@ void run_cpu_workload_iteration (float& timing, const int iter, const int maxIte
 }
 
 // Repeat to get average results
-template <class real>
+template <typename real>
 double run_all_iterations(const size_t iters, const size_t nrows, const size_t ncols,
     const real dt, const size_t reps, const size_t* idxRow, const size_t* idxCol, const size_t npoints, const MathUsed mathused = MathUsed::USE_MULT)
 {
