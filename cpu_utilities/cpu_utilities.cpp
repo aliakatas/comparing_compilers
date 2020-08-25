@@ -1,13 +1,29 @@
 #include "cpu_utilities.h"
 #include "MessageLogger.h"
 
-void cpu_benchmark(const size_t nrows, const size_t ncols,
-    const double dt, const size_t reps, const size_t* idxRow, const size_t* idxCol, const size_t npoints, const bool logfile, const MathUsed mathused)
+void benchmark(const size_t nrows, const size_t ncols,
+    const double dt, const size_t reps, const size_t* idxRow, const size_t* idxCol, const size_t npoints, const bool logfile, 
+    const MathUsed mathused, const ProcType procType)
 {
     MessageLogger messenger(true);
     if (logfile)
     {
-        std::string logName = "cpu_benchmark_";
+        std::string logName;
+        switch (procType)
+        {
+        case (ProcType::CPU): {
+            logName += "cpu_";
+            break;
+        }
+        case (ProcType::GPU): {
+            logName += "gpu_";
+            break;
+        }
+        default:
+            break;
+        }
+        
+        logName = "benchmark_";
         switch (mathused)
         {
         case (MathUsed::USE_MULT): {
@@ -51,11 +67,29 @@ void cpu_benchmark(const size_t nrows, const size_t ncols,
 
     // Show some info on the work to be done...
     messenger.writeOutput();
+    std::string tempMessage = "                      ";
+    switch (procType)
+    {
+    case (ProcType::CPU): {
+        tempMessage += "CPU ";
+        break;
+    }
+    case (ProcType::GPU): {
+        tempMessage += "GPU ";
+        break;
+    }
+    default:
+        break;
+    }
+    tempMessage += "Benchmark ";
 #ifdef WIN32
-    messenger.writeOutput("                      CPU Benchmark 32bit              ");
+    tempMessage += "32bit ";
 #else
-    messenger.writeOutput("                      CPU Benchmark 64bit              ");
+    tempMessage += "64bit ";
 #endif
+    tempMessage += "              ";
+    messenger.writeOutput(tempMessage);
+
     messenger.writeOutput(" ---------------------------------------------------------- ");
     std::string tempStr;
     tempStr = "            Rows x Columns :: " + std::to_string(nrows) + " x " + std::to_string(ncols);

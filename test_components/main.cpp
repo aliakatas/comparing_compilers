@@ -19,16 +19,16 @@ int main(int argc, char** argv)
 	prepareBCpoints(myRC.npoints, myRC.idxRow, myRC.idxCol, myRC.nrows, myRC.ncols);
 
 	if (myRC.testType == TestType::FULL || myRC.testType == TestType::MULT)
-		cpu_benchmark(myRC.nrows, myRC.ncols, myRC.dt, myRC.reps, myRC.idxRow, myRC.idxCol, myRC.npoints, true, MathUsed::USE_MULT);
+		benchmark(myRC.nrows, myRC.ncols, myRC.dt, myRC.reps, myRC.idxRow, myRC.idxCol, myRC.npoints, true, MathUsed::USE_MULT, ProcType::CPU);
 	
 	if (myRC.testType == TestType::FULL || myRC.testType == TestType::SPECIAL)
-		cpu_benchmark(myRC.nrows, myRC.ncols, myRC.dt, myRC.reps, myRC.idxRow, myRC.idxCol, myRC.npoints, true, MathUsed::USE_POW);
+		benchmark(myRC.nrows, myRC.ncols, myRC.dt, myRC.reps, myRC.idxRow, myRC.idxCol, myRC.npoints, true, MathUsed::USE_POW, ProcType::CPU);
 
 	if (myRC.testType == TestType::FULL || myRC.testType == TestType::SPECIAL || myRC.testType == TestType::TRIGON)
-		cpu_benchmark(myRC.nrows, myRC.ncols, myRC.dt, myRC.reps, myRC.idxRow, myRC.idxCol, myRC.npoints, true, MathUsed::USE_TRIG);
+		benchmark(myRC.nrows, myRC.ncols, myRC.dt, myRC.reps, myRC.idxRow, myRC.idxCol, myRC.npoints, true, MathUsed::USE_TRIG, ProcType::CPU);
 
 	if (myRC.testType == TestType::FULL || myRC.testType == TestType::TANH)
-		cpu_benchmark(myRC.nrows, myRC.ncols, myRC.dt, myRC.reps, myRC.idxRow, myRC.idxCol, myRC.npoints, true, MathUsed::USE_TANH);
+		benchmark(myRC.nrows, myRC.ncols, myRC.dt, myRC.reps, myRC.idxRow, myRC.idxCol, myRC.npoints, true, MathUsed::USE_TANH, ProcType::CPU);
 
 	std::cout << " Goodbye!\n\n";
 	return 0;
