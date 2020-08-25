@@ -16,6 +16,8 @@ int main(int argc, char** argv)
 		return 0;
 
 	confirmRunConfiguration(myRC);
+	//if (!deviceQuery())
+	//	myRC.gpuOn = false;
 	prepareBCpoints(myRC.npoints, myRC.idxRow, myRC.idxCol, myRC.nrows, myRC.ncols);
 
 	if (myRC.testType == TestType::FULL || myRC.testType == TestType::MULT)

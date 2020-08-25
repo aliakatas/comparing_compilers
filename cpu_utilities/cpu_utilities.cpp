@@ -165,3 +165,4 @@ void prepareBCpoints(const size_t N, size_t*& idxRows, size_t*& idxCols, const s
     get_random_ints(N, idxRows, 0, nrows - 1);
     get_random_ints(N, idxCols, 0, ncols - 1);
 }
+
