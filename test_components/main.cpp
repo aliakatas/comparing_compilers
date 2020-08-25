@@ -1,6 +1,7 @@
 #include "cpu_utilities.h"
 #include "CmdParser.h"
 #include "helper_funcs.h"
+#include "gpu_utilities.h"
 
 #include <iostream>
 
@@ -16,12 +17,14 @@ int main(int argc, char** argv)
 		return 0;
 
 	confirmRunConfiguration(myRC);
+	if (myRC.gpuOn) {
 #ifndef WIN32
-	//if (!deviceQuery())
-	//	myRC.gpuOn = false;
+		if (!deviceQuery())
+			myRC.gpuOn = false;
 #else
-	myRC.gpuOn = false;
+		myRC.gpuOn = false;
 #endif
+	}
 	prepareBCpoints(myRC.npoints, myRC.idxRow, myRC.idxCol, myRC.nrows, myRC.ncols);
 
 	if (myRC.testType == TestType::FULL || myRC.testType == TestType::MULT)

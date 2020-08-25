@@ -140,10 +140,10 @@ void benchmark(const size_t nrows, const size_t ncols,
     messenger.writeOutput("  MSVC compiler results");
 #endif
     messenger.writeOutput();
-    const double stime = run_all_iterations <float>(N, nrows, ncols, dt, reps, idxRow, idxCol, npoints, mathused);
+    const double stime = run_all_iterations <float>(N, nrows, ncols, dt, reps, idxRow, idxCol, npoints, mathused, procType);
     messenger.writeOutput("  After " + std::to_string(N) + " iterations, the average run time for SINGLE precision is " + to_string_with_precision(stime, 3) + " (s) ");
 
-    const double dtime = run_all_iterations <double>(N, nrows, ncols, dt, reps, idxRow, idxCol, npoints, mathused);
+    const double dtime = run_all_iterations <double>(N, nrows, ncols, dt, reps, idxRow, idxCol, npoints, mathused, procType);
     messenger.writeOutput("  After " + std::to_string(N) + " iterations, the average run time for DOUBLE precision is " + to_string_with_precision(dtime, 3) + " (s) ");
     messenger.writeOutput();
 }

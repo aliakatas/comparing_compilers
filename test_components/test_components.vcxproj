@@ -92,7 +92,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)CodeTimer;$(SolutionDir)CmdParser;$(SolutionDir)cpu_utilities;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)gpu_utilities;$(SolutionDir)CodeTimer;$(SolutionDir)CmdParser;$(SolutionDir)cpu_utilities;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -107,7 +107,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)CodeTimer;$(SolutionDir)CmdParser;$(SolutionDir)cpu_utilities;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)gpu_utilities;$(SolutionDir)CodeTimer;$(SolutionDir)CmdParser;$(SolutionDir)cpu_utilities;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -122,7 +122,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)CodeTimer;$(SolutionDir)CmdParser;$(SolutionDir)cpu_utilities;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)gpu_utilities;$(SolutionDir)CodeTimer;$(SolutionDir)CmdParser;$(SolutionDir)cpu_utilities;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -137,7 +137,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)CodeTimer;$(SolutionDir)CmdParser;$(SolutionDir)cpu_utilities;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)gpu_utilities;$(SolutionDir)CodeTimer;$(SolutionDir)CmdParser;$(SolutionDir)cpu_utilities;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -156,6 +156,9 @@
     </ProjectReference>
     <ProjectReference Include="..\cpu_utilities\cpu_utilities.vcxproj">
       <Project>{dc407c3b-0929-4fe6-b10a-25d8cd62da2e}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\gpu_utilities\gpu_utilities.vcxproj">
+      <Project>{0600b78f-4985-415f-91ca-9333390e4236}</Project>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

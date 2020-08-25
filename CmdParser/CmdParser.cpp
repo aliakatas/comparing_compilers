@@ -7,7 +7,7 @@
 std::string optionsExplained[] = { "number of row and columns (square domain)", "number of rows", "number of columns", "number of repetitions", 
 	"timestep", "tolerance", "pct of points with BC", 
 	"test type (0: Multiplication only, 1: Power and Trigonometric, 2: Trigonometric only, 3: Hyperbolic Tangent, Any other value: Full test",
-	"run benchmark on GPU as well" };
+	"run benchmark on GPU as well (0: no / 1: yes)" };
 std::string options[] = { "-n", "-r", "-c", "-rep", "-dt", "-tol", "-bc", "-type", "-gpu" };
 
 /**/
@@ -31,7 +31,12 @@ bool parseArguments(int argc, char** argv, RunConfiguration& rc)
 			}
 
 			if (options[i].compare(argv[iarg]) == 0)
-				setRunConfigurationParameter(options[i], argv[++iarg], rc);
+			{
+				if (iarg + 1 < argc)
+					setRunConfigurationParameter(options[i], argv[++iarg], rc);
+				else 
+					setRunConfigurationParameter(options[i], "0", rc);
+			}	
 		}
 		++iarg;
 	}
@@ -91,7 +96,14 @@ void setRunConfigurationParameter(const std::string istr_, const std::string val
 		}
 	}
 	else if (istr.compare("-gpu") == 0)
-		rc.gpuOn = true;
+	{
+		int tempInt = std::stoi(val);
+		if (tempInt)
+			rc.gpuOn = true;
+		else
+			rc.gpuOn = false;
+	}
+		
 }
 
 /**/

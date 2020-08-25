@@ -187,7 +187,7 @@ void dump_to_csv(const std::string fname, const real* myArray, const size_t nrow
     csvstream.close();
 }
 
-// Get one iteration of the workload
+// Get one iteration of the workload on CPU
 template <typename real>
 void run_cpu_workload_iteration (float& timing, const int iter, const int maxIter, const size_t nrows, const size_t ncols,
     const real dt, const size_t reps, const size_t* idxRow, const size_t* idxCol, const size_t npoints, const MathUsed mathused = MathUsed::USE_MULT)
@@ -223,10 +223,97 @@ void run_cpu_workload_iteration (float& timing, const int iter, const int maxIte
 
     std::string csvName;
     if (sizeof(real) == sizeof(float))
-        csvName = "single";
+        csvName = "cpu_single";
     else
-        csvName = "double";
+        csvName = "cpu_double";
     
+    csvName += "_prec_results_";
+    switch (mathused)
+    {
+    case (MathUsed::USE_MULT): {
+        csvName += "mult_";
+        break;
+    }
+    case (MathUsed::USE_POW): {
+        csvName += "pow_";
+        break;
+    }
+    case (MathUsed::USE_TANH): {
+        csvName += "tanh_";
+        break;
+    }
+    default:
+    {
+        csvName += "mult_";
+        break;
+    }
+    }
+
+#ifdef WIN32
+    csvName += "32bit";
+#else
+    csvName += "64bit";
+#endif
+
+#ifdef __INTEL_COMPILER
+    csvName += "_ICC";
+#else
+    csvName += "_MSVC";
+#endif
+    csvName += ".csv";
+
+    dump_to_csv(csvName, c_h, nrows, ncols);
+
+    if (a_h)
+        free(a_h);
+    if (b_h)
+        free(b_h);
+    if (c_h)
+        free(c_h);
+    timing = timer.stop();
+    timer.print();
+}
+
+// Get one iteration of the workload on GPU
+template <typename real>
+void run_gpu_workload_iteration(float& timing, const int iter, const int maxIter, const size_t nrows, const size_t ncols,
+    const real dt, const size_t reps, const size_t* idxRow, const size_t* idxCol, const size_t npoints, const MathUsed mathused = MathUsed::USE_MULT)
+{
+    // Create a timer...
+    Timer timer;
+
+    // Declare the arrays
+    real* a_h = nullptr;
+    real* b_h = nullptr;
+    real* c_h = nullptr;
+
+    std::string tempMessage;
+    if (sizeof(real) == sizeof(float))
+        tempMessage = "GPU workload (single precision) ";
+    else
+        tempMessage = "GPU workload (double precision) ";
+    tempMessage += std::to_string(iter);
+    tempMessage += " / ";
+    tempMessage += std::to_string(maxIter);
+
+    timer.start(tempMessage);
+    a_h = (real*)malloc(nrows * ncols * sizeof(real));
+    b_h = (real*)malloc(nrows * ncols * sizeof(real));
+    c_h = (real*)malloc(nrows * ncols * sizeof(real));
+
+    // Initialise the input matrices
+    initialise <real>(a_h, nrows, ncols);
+    initialise <real>(b_h, nrows, ncols, 2);
+
+    //// Run work on GPU
+    //calculateOnCPU <real>(c_h, a_h, b_h, nrows, ncols, dt, reps, idxRow, idxCol, npoints, mathused);
+
+    std::string csvName;
+    if (sizeof(real) == sizeof(float))
+        csvName = "gpu_single";
+    else
+        csvName = "gpu_double";
+
     csvName += "_prec_results_";
     switch (mathused)
     {
@@ -277,14 +364,19 @@ void run_cpu_workload_iteration (float& timing, const int iter, const int maxIte
 // Repeat to get average results
 template <typename real>
 double run_all_iterations(const size_t iters, const size_t nrows, const size_t ncols,
-    const real dt, const size_t reps, const size_t* idxRow, const size_t* idxCol, const size_t npoints, const MathUsed mathused = MathUsed::USE_MULT)
+    const real dt, const size_t reps, const size_t* idxRow, const size_t* idxCol, const size_t npoints, const MathUsed mathused = MathUsed::USE_MULT,
+    const ProcType proctype = ProcType::CPU)
 {
     float temp_timing = 0.0f;
     double final_timing = 0.0;
     int iter = 0;
     while (iter < iters)
     {
-        run_cpu_workload_iteration <real> (temp_timing, iter + 1, iters, nrows, ncols, dt, reps, idxRow, idxCol, npoints, mathused);
+        if (proctype == ProcType::GPU)
+            run_gpu_workload_iteration <real>(temp_timing, iter + 1, iters, nrows, ncols, dt, reps, idxRow, idxCol, npoints, mathused);
+        else 
+            run_cpu_workload_iteration <real>(temp_timing, iter + 1, iters, nrows, ncols, dt, reps, idxRow, idxCol, npoints, mathused);
+
         final_timing += temp_timing;
         ++iter;
     }
