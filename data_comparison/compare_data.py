@@ -52,7 +52,7 @@ if __name__ == "__main__":
         bittage = bittages[ij]
         for precision in ['single', 'double']:
             for math_type in ['mult', 'pow', 'tanh']:
-                compare_files(folder, precision, math_type, bittage, 0.000001)
+                compare_files(folder, precision, math_type, bittage, 1e-8)
 
 
     print('\nDone.')
