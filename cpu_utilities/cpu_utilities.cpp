@@ -288,9 +288,11 @@ void generate_tables(const size_t nrows, const size_t ncols,
 
     float temp_timing = 0.0f;
     run_cpu_workload_iteration <float>(temp_timing, 1, 1, nrows, ncols, dt, reps, idxRow, idxCol, npoints, mathused);
-
+    messenger.writeOutput("  Run time for SINGLE precision is " + to_string_with_precision(temp_timing, 3) + " (s) ");
+    
     run_cpu_workload_iteration <double>(temp_timing, 1, 1, nrows, ncols, dt, reps, idxRow, idxCol, npoints, mathused);
-
+    messenger.writeOutput("  Run time for DOUBLE precision is " + to_string_with_precision(temp_timing, 3) + " (s) ");
+    messenger.writeOutput();
 }
 
 void get_random_ints(const size_t N, size_t* idx, const size_t minVal, const size_t maxVal)
