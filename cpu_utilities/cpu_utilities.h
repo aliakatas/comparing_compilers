@@ -186,7 +186,7 @@ void dump_to_csv(const std::string fname, const real* myArray, const size_t nrow
         for (auto icol = 0; icol < ncols; ++icol)
         {
             idx = irow * ncols + icol;
-            csvstream << to_string_with_precision(myArray[idx]) + ", ";
+            csvstream << to_string_with_precision(myArray[idx], 12) + ", ";
         }
         csvstream << "\n";
     }
