@@ -1,5 +1,6 @@
 #pragma once
 #include "Timer.h"
+//#include "gpu_utilities.h"
 
 #include <math.h>
 #include <stdlib.h>
@@ -32,6 +33,11 @@ enum class MathUsed
 // Controller of the benchmark processes
 void benchmark(const size_t nrows, const size_t ncols,
     const double dt, const size_t reps, const size_t* idxRow, const size_t* idxCol, const size_t npoints, const bool logfile = false, 
+    const MathUsed mathused = MathUsed::USE_MULT, const ProcType procType = ProcType::CPU);
+
+// Controller of the processes producing results for value comparison
+void generate_tables(const size_t nrows, const size_t ncols,
+    const double dt, const size_t reps, const size_t* idxRow, const size_t* idxCol, const size_t npoints, const bool logfile = false,
     const MathUsed mathused = MathUsed::USE_MULT, const ProcType procType = ProcType::CPU);
 
 // Get random integers (size_t) in an array, within a range of values
@@ -306,7 +312,10 @@ void run_gpu_workload_iteration(float& timing, const int iter, const int maxIter
     initialise <real>(b_h, nrows, ncols, 2);
 
     //// Run work on GPU
-    //calculateOnCPU <real>(c_h, a_h, b_h, nrows, ncols, dt, reps, idxRow, idxCol, npoints, mathused);
+    /*if (sizeof(real) == sizeof(float))
+        calculateOnGPU_f(c_h, a_h, b_h, nrows, ncols, dt, reps, idxRow, idxCol, npoints);
+    else
+        calculateOnGPU_d(c_h, a_h, b_h, nrows, ncols, dt, reps, idxRow, idxCol, npoints);*/
 
     std::string csvName;
     if (sizeof(real) == sizeof(float))

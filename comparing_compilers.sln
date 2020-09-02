@@ -15,6 +15,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CmdParser", "CmdParser\CmdP
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gpu_utilities", "gpu_utilities\gpu_utilities.vcxproj", "{0600B78F-4985-415F-91CA-9333390E4236}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "produce_results_table", "produce_results_table\produce_results_table.vcxproj", "{0CDDAB93-2047-4C0C-8EE2-8689FC5584EB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -69,6 +71,14 @@ Global
 		{0600B78F-4985-415F-91CA-9333390E4236}.Release|x64.ActiveCfg = Release|x64
 		{0600B78F-4985-415F-91CA-9333390E4236}.Release|x64.Build.0 = Release|x64
 		{0600B78F-4985-415F-91CA-9333390E4236}.Release|x86.ActiveCfg = Release|x64
+		{0CDDAB93-2047-4C0C-8EE2-8689FC5584EB}.Debug|x64.ActiveCfg = Debug|x64
+		{0CDDAB93-2047-4C0C-8EE2-8689FC5584EB}.Debug|x64.Build.0 = Debug|x64
+		{0CDDAB93-2047-4C0C-8EE2-8689FC5584EB}.Debug|x86.ActiveCfg = Debug|Win32
+		{0CDDAB93-2047-4C0C-8EE2-8689FC5584EB}.Debug|x86.Build.0 = Debug|Win32
+		{0CDDAB93-2047-4C0C-8EE2-8689FC5584EB}.Release|x64.ActiveCfg = Release|x64
+		{0CDDAB93-2047-4C0C-8EE2-8689FC5584EB}.Release|x64.Build.0 = Release|x64
+		{0CDDAB93-2047-4C0C-8EE2-8689FC5584EB}.Release|x86.ActiveCfg = Release|Win32
+		{0CDDAB93-2047-4C0C-8EE2-8689FC5584EB}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
